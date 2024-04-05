@@ -140,15 +140,15 @@ void checkCollision(){
 }
 
 void checkTargetHit(){
-  if(ship_zero.shoots.size() > 0){ // acessa apenas quando há tiros
     for(int i = ship_zero.shoots.size() - 1; i >= 0; i--){ // corre a lista de tiros 
       for(int j = enemies.size() - 1; j >= 0; j--){ // corre a lista de inimigos através do índice 
-        if(OnCollisionEnter(enemies.get(j).x, enemies.get(j).y, ship_zero.shoots.get(i).getHitX(), ship_zero.shoots.get(i).getHitY(), 25, 10)){ // verifica a colisão do inimigo com o tiro
-          enemies.remove(j); // remove o inimigo da lista na posição do ínmdice 
-          //println("Hittou! " + i);
-          ship_zero.shoots.remove(i); // remove o tiro da lista na posição do índice
-          score++; // incrementa o score
-        }
+        if(ship_zero.shoots.size() > 0){ // acessa apenas quando há tiros
+          if(OnCollisionEnter(enemies.get(j).x, enemies.get(j).y, ship_zero.shoots.get(i).getHitX(), ship_zero.shoots.get(i).getHitY(), 25, 10)){ // verifica a colisão do inimigo com o tiro
+            enemies.remove(j); // remove o inimigo da lista na posição do ínmdice 
+            //println("Hittou! " + i);
+            ship_zero.shoots.remove(i); // remove o tiro da lista na posição do índice
+            score++; // incrementa o score
+          }
       }
     }
   }
