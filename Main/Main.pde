@@ -193,6 +193,8 @@ void leveling(){
     level++; 
     lastScore = score; 
     activeEnemies++; 
+    ship_zero.shieldEllipseSizeX = level + 15; 
+    ship_zero.shieldEllipseSizeY = level + 15; 
     if(level < 10){
       shootSpeed = shootSpeed * 2;
       shootCadence = shootCadence/3; 
@@ -201,12 +203,12 @@ void leveling(){
       bulletSize += 10; 
     }
   }else if((score > lastScore * 1.5) && level >= 10){
-      // reboot 
-      level = 1; 
-      lastScore = score; 
-      activeEnemies++; 
-      shootSpeed = 2;
-      shootCadence = 200; 
+    // reboot 
+    level = 1; 
+    lastScore = score; 
+    activeEnemies++; 
+    shootSpeed = 2;
+    shootCadence = 200; 
   }
   ship_zero.setShootSpeed(shootSpeed); 
   ship_zero.setShootCadence(shootCadence); 

@@ -1,12 +1,15 @@
 class Ship {
   float x, y, a;
-  float speedX, speedY, maxSpeed, shootCadence, shootSpeed, timeToShoot, bulletSize; 
+  float speedX, speedY, maxSpeed, shootCadence, shootSpeed, timeToShoot, bulletSize, radianDiff; 
   
   float delta; // armazena a diferença de tempo entre dois momentos 
   float lastTime; // armazena o tempo de um determinado evento (cool down de pulo)
   float tempoNaoJogado; // armazena o tempo não jogado para subtrair do score
   
   ArrayList<Shoot> shoots =  new ArrayList<>(); 
+  
+  color shieldColor = color(100, 100, 255, 100);  // Define color blue
+  float shieldEllipseSizeX, shieldEllipseSizeY; 
   
   
   Ship() { // construtor 
@@ -25,6 +28,8 @@ class Ship {
     tempoNaoJogado = 0; 
     
     bulletSize = 10; 
+    shieldEllipseSizeX = 15; 
+    shieldEllipseSizeY = 15; 
   }
   void display() { // método para desenhar a nave na tela 
     //a = atan2(mouseY - y, mouseX - x); // retorna o ângulo em radianos -pi a pi
@@ -36,6 +41,7 @@ class Ship {
     pushMatrix();
     translate(x, y); // centraliza as coordenadas 
     //rotate(a+90); // ajeita o posicionamento ângular
+    shield(50+(level*5), radians(timeToShoot*radianDiff), speedX, speedY); 
     stroke(255); // cor do contorno 
     noFill(); // sem preenchimento 
     line(0, -10, 10, 10); // linha 
@@ -79,7 +85,6 @@ class Ship {
     
     // tiro 
     delta = (millis() - lastTime)/1000; // captura a difença de tempo
-    //println(timeToShoot); 
     if(timeToShoot >= shootCadence){ // verifica se a diferença de tempo é maior que o cool down do tiro
       if(shoot){
         shoot(); 
@@ -89,11 +94,13 @@ class Ship {
     }else{
       timeToShoot += delta; 
     }   
+    radianDiff = 360/shootCadence; // calcula a diferença entre o tempo para atirar e uma volta completa do círculo
     if(shoots.size() > 0){ // atualiza os tiros na tela - movimento e remoção de projéteis que colidiram - apenas quando a lista de tiros não está vazia
         for(int i = shoots.size() -1; i > 0; i--){
           shoots.get(i).update(); 
           shoots.get(i).display(); 
           shoots.get(i).checkRemove(); 
+          shieldColor = shoots.get(i).myColor; 
           if(shoots.get(i).shouldRemove){
             shoots.remove(i); 
           }
@@ -133,7 +140,12 @@ class Ship {
     this.bulletSize = value; 
   }
   
-  void shield(){
+  void shield(float raio, float angulo, float xc, float yc) { // desenha um círculo que gira no meio das coordenadas passadas
+    float x_shield = raio * cos(angulo) + xc; // equação paramétrica X
+    float y_shield = raio * sin(angulo) + yc; // equação paramétrica Y
     
-  }
+    stroke(shieldColor); 
+    fill(shieldColor); // define a cor
+    ellipse(x_shield, y_shield, shieldEllipseSizeX, shieldEllipseSizeX); // desenha o círculo
+}
 }
