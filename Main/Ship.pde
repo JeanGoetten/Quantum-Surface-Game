@@ -1,3 +1,5 @@
+
+
 class Ship {
   float x, y, a;
   float speedX, speedY, maxSpeed, shootCadence, shootSpeed, timeToShoot, bulletSize, radianDiff; 
@@ -30,6 +32,7 @@ class Ship {
     bulletSize = 10; 
     shieldEllipseSizeX = 15; 
     shieldEllipseSizeY = 15; 
+    
   }
   void display() { // método para desenhar a nave na tela 
     //a = atan2(mouseY - y, mouseX - x); // retorna o ângulo em radianos -pi a pi
@@ -103,6 +106,7 @@ class Ship {
           shoots.get(i).checkRemove(); 
           shieldColor = shoots.get(i).myColor; 
           if(shoots.get(i).shouldRemove){
+            
             shoots.remove(i); 
           }
         }
@@ -122,6 +126,8 @@ class Ship {
     float shootY = y; 
     //float shootA = a; 
     shoots.add(new Shoot(x, shootY, shootSpeed, bulletSize)); 
+    sfx_shoot.rewind();
+    sfx_shoot.play();
     //println(shoots.size()); 
   }
   

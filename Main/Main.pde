@@ -1,3 +1,5 @@
+import ddf.minim.*; 
+
 Ship ship_zero; // cria uma variável do tipo Ship
 ArrayList<Enemy> enemies; // cria uma lista do tipo Enemy 
 ArrayList<ParticleSystem> ps = new ArrayList<>(); 
@@ -13,6 +15,18 @@ int level;
 float shootCadence, shootSpeed, bulletSize; 
 
 boolean reborn, start;
+
+Minim minim; 
+Minim minim2; 
+Minim minim3; 
+Minim minim4; 
+
+AudioPlayer sfx_start; 
+AudioPlayer sfx_end; 
+AudioPlayer sfx_explosion; 
+AudioPlayer sfx_shoot; 
+
+AudioPlayer musicTheme; 
 
 void setup() {
   size(700, 700); // o bom e velho tamanho da tela 
@@ -46,11 +60,26 @@ void setup() {
   max_distance = dist(0, 0, width, height);
   
   start = false; 
+  
+  // SOUND
+  minim = new Minim(this); 
+  minim2 = new Minim(this); 
+  minim3 = new Minim(this); 
+  minim4 = new Minim(this); 
+  
+  sfx_start = minim2.loadFile("start.wav"); 
+  sfx_end = minim3.loadFile("end.wav"); 
+  sfx_explosion = minim4.loadFile("start_02.wav"); 
+  sfx_shoot = minim.loadFile("shoot.wav"); 
+  
+  musicTheme = minim.loadFile("theme.mp3");
+  musicTheme.rewind(); 
+  musicTheme.loop(); 
+  musicTheme.play(); 
 }
 
 void draw() {
-  background(0); // define a cor de fundo
-  //translate(width/2, height/2); 
+  background(0); // redefine a cor de fundo
   
   if(start){
     // PLAYER SHIP
@@ -65,9 +94,6 @@ void draw() {
     checkCollision(); // verifica se o player colidiu com um inimigo 
     checkTargetHit(); // verifica se o player acertou tiro num inimigo 
     
-    // delta time
-    
-    
     // Progressão
     leveling(); 
     
@@ -79,8 +105,8 @@ void draw() {
     
   }else{
     mainMenu(); 
-    //println(keyCode);
   }
+    
 }
 
 void keyPressed() { // códigos do teclado (println(keycode);) - shift = 16 space = 32 left = 37 up = 38 right = 39 down = 40 
@@ -99,6 +125,8 @@ void keyPressed() { // códigos do teclado (println(keycode);) - shift = 16 spac
         break; 
       case 10: // Enter
         start = true; 
+        sfx_start.rewind();
+        sfx_start.play();
         break; 
     }
 }
@@ -179,6 +207,10 @@ void checkCollision(){ // verifica a colisão do player com os inimigos
   if(enemies.size() > 0){ // acessa apenas quando há inimigos 
     for(Enemy enemy : enemies){ // corre a lista de inimigos 
       if(OnCollisionEnter(ship_zero.x, ship_zero.y, enemy.x, enemy.y, 25, 25)){ // verifica a colisão com o inimigo
+        
+        sfx_end.rewind();
+        sfx_end.play();
+        
         start = false; 
         reset(); 
       }
@@ -192,6 +224,9 @@ void checkTargetHit(){ // verifica se o tiro acertou o inimigo
       if(ship_zero.shoots.get(i).OnCollisionEnter(enemies.get(j))){ // verifica a colisão do inimigo com o tiro
         
         ps.add(new ParticleSystem(new PVector(ship_zero.shoots.get(i).getHitX(), ship_zero.shoots.get(i).getHitY()), enemies.get(j).myColor));
+        
+        sfx_explosion.rewind();
+        sfx_explosion.play();
         
         ship_zero.shoots.get(i).shouldRemove = true; 
         enemies.remove(j); 
@@ -213,7 +248,7 @@ void HUD(){
   textSize(42);
   stroke(255);
   fill(255); 
-  text(score, 25, 50);
+  //text(score, 25, 50);
   //text(level, width-50, 50);
 }
 
@@ -262,24 +297,24 @@ void BGWave(){
 void mainMenu(){
     BGMainMenu();
     
-    stroke(255);
-    fill(255); 
-    
+    fill(0, 408, 612, 204);
     textSize(36);
     text("Press Enter...", 470, 670); 
     
+    fill(0, 408, 612, 204);
     textSize(18);
     text("Controles: ", 20, 500); 
     textSize(16);
     text("WASD", 20, 550); 
     text("Mouse Left Click", 20, 570); 
     
+    fill(0, 408, 612, 204);
     textSize(18);
     text("Jean Goetten", 20, 650); 
     text("Recursos Matemáticos - PUCPR", 20, 670); 
     
     stroke(255);
-    fill(255); 
+    fill(0, 408, 612, 204);
     textSize(78);
     text("Quantum", 300, 300); 
     text("Surface", 400, 400); 
@@ -323,10 +358,31 @@ void BGMainMenu(){
   for (int x = gridSize; x <= width - gridSize; x += gridSize) {
     for (int y = gridSize; y <= height - gridSize; y += gridSize) {
       noStroke();
-      fill(100, 100, 255, 10);
-      rect(x-1, y-1, 3, 3);
-      stroke(255, 100, 100, 10);
+      fill(150, 150, 5*((mouseY/25)+(mouseX/25)), 3);
+      rect(x-1, y-1, 3, 1);
+      stroke(100, 100, 255, 5);
       line(x, y, width/2, height/2);
     }
+  }
+  for (int x = gridSize; x <= width - gridSize; x += gridSize) {
+    for (int y = gridSize; y <= height - gridSize; y += gridSize) {
+      noStroke();
+      fill(150, 150, 5*((mouseY/25)+(mouseX/25)), 5);
+      rect(x-1, y-1, 3, 1);
+      stroke(100, 255, 100, 10);
+      line(x, y, width/3, height/3);
+    }
+  }
+  for (int x = gridSize; x <= width - gridSize; x += gridSize) {
+    for (int y = gridSize; y <= height - gridSize; y += gridSize) {
+      noStroke();
+      fill(150, 150, 5*((mouseY/25)+(mouseX/25)), 7);
+      rect(x-1, y-1, 3, 1);
+      stroke(255, 100, 100, 15);
+      line(x, y, width/5, height/5);
+    }
+  }
+  for (int i = 0; i < 200; i += 40) {
+    bezier(mouseX-(i/2.0), 40+i, 410, 20, 440, 300, 240-(i/16.0), 300+(i/8.0));
   }
 }
