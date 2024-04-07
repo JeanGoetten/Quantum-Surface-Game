@@ -1,6 +1,8 @@
 class Enemy{
-  float x, y, w, h, vx, vy, a; 
+  float x, y, w, h, vx, vy, a, size; 
   float speed; 
+  
+  boolean shouldRemove; 
   
   Enemy(){ // construtor 
     x = random(width); 
@@ -9,6 +11,9 @@ class Enemy{
     vx = 0; 
     vy = 0; 
     speed = 1.1; 
+    size = 25; 
+    
+    shouldRemove = false; 
   }
   
   void update(){ // atualiza o movimento da nave 
@@ -30,7 +35,7 @@ class Enemy{
     pushMatrix();
     translate(x, y);
     rotate(PI);
-    stroke(255);
+    stroke(255, 0, 0);
     noFill();
     line(0, -10, 10, 10);
     line(10, 10, 0, 5);
@@ -39,7 +44,10 @@ class Enemy{
     popMatrix();
   }
   
-  void chase(){
-    
+  float getSize(){
+    return this.size; 
+  }
+  void setSize(float value){
+    this.size = value; 
   }
 }

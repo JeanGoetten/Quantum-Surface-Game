@@ -1,12 +1,13 @@
 class Ship {
   float x, y, a;
-  float speedX, speedY, maxSpeed, shootCadence, timeToShoot, bulletSize; 
+  float speedX, speedY, maxSpeed, shootCadence, shootSpeed, timeToShoot, bulletSize; 
   
   float delta; // armazena a diferença de tempo entre dois momentos 
   float lastTime; // armazena o tempo de um determinado evento (cool down de pulo)
   float tempoNaoJogado; // armazena o tempo não jogado para subtrair do score
   
   ArrayList<Shoot> shoots =  new ArrayList<>(); 
+  
   
   Ship() { // construtor 
     x = width/2; // posição horizontal inicial 
@@ -16,7 +17,7 @@ class Ship {
     speedX = 0; // inicializa parado na horizontal - será incrementado quando o jogador apertar a tecla correspondente
     speedY = 0; // inicializa parado na vertical - será incrementado quando o jogador apertar a tecla correspondente
     
-    this.shootCadence = 10; 
+    this.shootCadence = 0; 
     timeToShoot = 0; 
     
     delta = 0; // inicia o delta tempo
@@ -88,20 +89,17 @@ class Ship {
     }else{
       timeToShoot += delta; 
     }   
-    if(shoots.size() > 0){
-        for(Shoot hShoot : shoots){
-          hShoot.update(); 
-          hShoot.display(); 
-          hShoot.checkRemove(); 
-        }
-        for(int i = shoots.size() - 1; i >= 0; i--){
-          Shoot hShoot = shoots.get(i); 
-          
-          if(hShoot.shouldRemove == true){
-            shoots.remove(hShoot); 
-          } 
+    if(shoots.size() > 0){ // atualiza os tiros na tela - movimento e remoção de projéteis que colidiram - apenas quando a lista de tiros não está vazia
+        for(int i = shoots.size() -1; i > 0; i--){
+          shoots.get(i).update(); 
+          shoots.get(i).display(); 
+          shoots.get(i).checkRemove(); 
+          if(shoots.get(i).shouldRemove){
+            shoots.remove(i); 
+          }
         }
       }
+      //println(shootCadence); 
   }
   
   void checkBounds(){
@@ -115,7 +113,7 @@ class Ship {
     //float shootX = x; 
     float shootY = y; 
     //float shootA = a; 
-    shoots.add(new Shoot(x, shootY, 10, 10)); 
+    shoots.add(new Shoot(x, shootY, shootSpeed, bulletSize)); 
     //println(shoots.size()); 
   }
   
@@ -127,7 +125,15 @@ class Ship {
     this.shootCadence = value; 
   }
   
+  void setShootSpeed(float value){ // atribui o valor de retorno à velocidade 
+    this.shootSpeed = value; 
+  }
+  
   void setBulletSize(float value){ // atribui o valor de retorno à velocidade 
     this.bulletSize = value; 
+  }
+  
+  void shield(){
+    
   }
 }
