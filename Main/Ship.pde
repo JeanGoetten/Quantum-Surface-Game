@@ -94,7 +94,8 @@ class Ship {
     }else{
       timeToShoot += delta; 
     }   
-    radianDiff = 360/shootCadence; // calcula a diferença entre o tempo para atirar e uma volta completa do círculo
+    radianDiff = 360/shootCadence; // calcula a diferença entre o tempo para atirar e uma volta completa do círculo ao entorno da nave
+    
     if(shoots.size() > 0){ // atualiza os tiros na tela - movimento e remoção de projéteis que colidiram - apenas quando a lista de tiros não está vazia
         for(int i = shoots.size() -1; i > 0; i--){
           shoots.get(i).update(); 

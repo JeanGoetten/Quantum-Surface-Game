@@ -6,9 +6,9 @@ class Shoot{
   
   boolean shouldRemove; // controle da remoção do tiro 
   
-  color R = color(255, 0, 0, 60);  // Define color red
-  color G = color(0, 255, 0, 80);  // Define color green
-  color B = color(100, 100, 255, 100);  // Define color blue
+  color R = color(255, 0, 0, 150);  // Define color red
+  color G = color(0, 255, 0, 150);  // Define color green
+  color B = color(100, 100, 255, 200);  // Define color blue
   
   color myColor = B; 
   
@@ -41,7 +41,7 @@ class Shoot{
     
     //println(a_hit); 
     
-    println(y_hit); 
+    //println(y_hit); 
     
   }
 
@@ -88,8 +88,8 @@ class Shoot{
     //circle(x2, y2, s2); 
     
     strokeWeight(.5);
-    stroke(255,255,0, 60);
-    //line(enemy.x, enemy.y, x_hit, y_hit-(bulletSize*2)); // desenha uma linha entre os objetos (debug)
+    stroke(255,255,0, 40);
+    line(enemy.x, enemy.y, x_hit, y_hit-(bulletSize*2)); // desenha uma linha entre os objetos (debug)
     textSize(18); // define o tamanho do texto 
     fill(255); // define a cor do texto 
     //text(distancia, x2_center - x1_center, y2_center - y1_center); // mostra o texto de debug na posição (tá zoado)
