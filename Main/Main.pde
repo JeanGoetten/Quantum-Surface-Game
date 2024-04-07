@@ -70,7 +70,7 @@ void setup() {
   sfx_start = minim2.loadFile("start.wav"); 
   sfx_end = minim3.loadFile("end.wav"); 
   sfx_explosion = minim4.loadFile("start_02.wav"); 
-  sfx_shoot = minim.loadFile("shoot.wav"); 
+  sfx_shoot = minim.loadFile("reload_02.wav"); 
   
   musicTheme = minim.loadFile("theme.mp3");
   musicTheme.rewind(); 
@@ -79,7 +79,7 @@ void setup() {
 }
 
 void draw() {
-  background(0); // redefine a cor de fundo
+  background(10); // redefine a cor de fundo
   
   if(start){
     // PLAYER SHIP
@@ -283,12 +283,13 @@ void leveling(){
 float max_distance;
 
 void BGWave(){
+  println(max_distance); 
   for(int i = 0; i <= width; i += 20) {
     for(int j = 0; j <= height; j += 20) {
       float size = dist(mouseX, mouseY, i, j);
-      size = size/max_distance * 66;
+      size = size/max_distance * 72;
       noStroke(); 
-      fill(0, 0, 0, 150);
+      fill(11, 11, 11, 150);
       ellipse(i, j, size, size);
     }
   }
