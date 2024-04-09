@@ -1,8 +1,8 @@
 class Shoot{
   
-  float x_hit, y_hit, speed_hit, bulletSize; 
+  float x_hit, y_hit, speed_hit, bulletSize; // posição, velocidade e tamanho 
   
-  float y_correction = 0; 
+  float y_correction = 0; // correção para o deslocamento vertical 
   
   boolean shouldRemove; // controle da remoção do tiro 
   
@@ -13,7 +13,7 @@ class Shoot{
   color myColor = B; 
   
   Shoot(float x, float y, float speed, float bulletSize){ // método constr7utor 
-    if(level < 6){
+    if(level < 6){ // verifica o level e atribui valores distintos para cor e deslocamento vertical 
       myColor = B; 
     }else if(level == 6){
       myColor = G; 
@@ -35,7 +35,7 @@ class Shoot{
     shouldRemove = false; //seta a variável de controle para falso 
   }
   
-  public void update(){
+  public void update(){ // atualiza a dinâmica do projétil 
     //a_hit = atan2(y_hit, x_hit); // retorna o ângulo em radianos -pi a pi
     y_hit -= speed_hit; // desloca o tiro no eixo y (vertical) incrementando o valor de 'velocidade' 
     
@@ -51,7 +51,7 @@ class Shoot{
     
   }
   
-  public void render(){
+  public void render(){ // aspectos visuais do projétil 
     pushMatrix();
     //translate(x_hit, y_hit); // centraliza as coordenadas 
     rotate(0); // ajeita o posicionamento ângular

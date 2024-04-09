@@ -1,17 +1,15 @@
-
-
 class Ship {
-  float x, y, a;
-  float speedX, speedY, maxSpeed, shootCadence, shootSpeed, timeToShoot, bulletSize, radianDiff; 
+  float x, y, a; // cordenadas e ângulo 
+  float speedX, speedY, maxSpeed, shootCadence, shootSpeed, timeToShoot, bulletSize, radianDiff; // velocidade, tempos e tamanhos 
   
   float delta; // armazena a diferença de tempo entre dois momentos 
   float lastTime; // armazena o tempo de um determinado evento (cool down de pulo)
   float tempoNaoJogado; // armazena o tempo não jogado para subtrair do score
   
-  ArrayList<Shoot> shoots =  new ArrayList<>(); 
+  ArrayList<Shoot> shoots =  new ArrayList<>(); // lista de tiros 
   
-  color shieldColor = color(100, 100, 255, 100);  // Define color blue
-  float shieldEllipseSizeX, shieldEllipseSizeY; 
+  color shieldColor = color(100, 100, 255, 100);  // Define color light blue
+  float shieldEllipseSizeX, shieldEllipseSizeY; // tamanhos da elipse que gira ao entorno da nave do player 
   
   
   Ship() { // construtor 
@@ -105,29 +103,28 @@ class Ship {
           shoots.get(i).display(); 
           shoots.get(i).checkRemove(); 
           shieldColor = shoots.get(i).myColor; 
-          if(shoots.get(i).shouldRemove){
-            
-            shoots.remove(i); 
+          if(shoots.get(i).shouldRemove){ // verifica se o tiro pode ser removido 
+            shoots.remove(i); // removge o tiro da lista 
           }
         }
       }
       //println(shootCadence); 
   }
   
-  void checkBounds(){
+  void checkBounds(){ // checa dos limites da tela 
     if(x > width){ x = 0;} // se passar do limite direito da tela, transporta para a esquerda 
     if(x < 0){ x = width;} // se passar do limite esquerdo da tela, transporta para a direita 
     if(y > height){ y = 0;} // se passar do limite inferior da tela, transporta para o inferior 
     if(y < 0){ y = height;} // se passar do limite superior da tela, transporta para o superior  
   }
   
-  void shoot(){
-    //float shootX = x; 
-    float shootY = y; 
-    //float shootA = a; 
-    shoots.add(new Shoot(x, shootY, shootSpeed, bulletSize)); 
-    sfx_shoot.rewind();
-    sfx_shoot.play();
+  void shoot(){ // atualiza o projétil 
+    //float shootX = x; // deslocamento horizontal do peojétil 
+    float shootY = y;  // deslocamento vertical do projétil 
+    //float shootA = a; // ângulo do projétil 
+    shoots.add(new Shoot(x, shootY, shootSpeed, bulletSize)); // adiciona um novo projétil à lista 
+    sfx_shoot.rewind(); // rebobina o som 
+    sfx_shoot.play(); // executa o som 
     //println(shoots.size()); 
   }
   
