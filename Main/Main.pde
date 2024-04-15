@@ -174,13 +174,6 @@ boolean OnCollisionEnter(float x1, float y1, float x2, float y2, float s1, float
     float distancia = dist(x1, y1, x2, y2); 
     //println(distancia); 
     
-    // debug circle collider 
-    //stroke(255, 0, 0);
-    //strokeWeight(1);
-    //noFill(); // sem preenchimento 
-    //circle(x1, y1, s1); 
-    //circle(x2, y2, s2); 
-    
     // debug line 
     strokeWeight(.5);
     stroke(255, 0, 0, 80); 
